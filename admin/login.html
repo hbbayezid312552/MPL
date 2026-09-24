@@ -1,97 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Admin Login — City Premier League</title>
-
-  <link rel="stylesheet" href="../src/css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login — City Premier League</title>
+<link rel="stylesheet" href="../src/css/style.css">
 </head>
 
+<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--pitch);">
 
-<body
-  style="
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    min-height:100vh;
-    background:var(--pitch);
-  "
->
+  <div class="card" style="max-width:380px;width:100%;margin:16px;">
 
+    <h2 style="margin-top:0;text-align:center;">🏏 Admin Login</h2>
 
-  <div
-    class="card"
-    style="
-      max-width:380px;
-      width:100%;
-      margin:16px;
-    "
-  >
-
-
-    <h2 style="margin-top:0;text-align:center;">
-      🏏 Admin Login
-    </h2>
-
-
-    <p
-      class="muted"
-      style="
-        text-align:center;
-        font-size:0.85rem;
-      "
-    >
+    <p class="muted" style="text-align:center;font-size:0.85rem;">
       Super Admin & Match Operator access
     </p>
 
-
     <!-- LOGIN FORM -->
-
     <form id="loginForm">
 
-
-      <!-- EMAIL -->
-
       <div class="form-group">
-
-        <label for="email">
-          Email
-        </label>
-
+        <label>Email</label>
         <input
           type="email"
           id="email"
           required
           autocomplete="username"
-          placeholder="Enter your email"
         >
-
       </div>
 
-
-      <!-- PASSWORD -->
-
       <div class="form-group">
-
-        <label for="password">
-          Password
-        </label>
-
+        <label>Password</label>
         <input
           type="password"
           id="password"
           required
           autocomplete="current-password"
-          placeholder="Enter your password"
         >
-
       </div>
-
-
-      <!-- LOGIN BUTTON -->
 
       <button
         type="submit"
@@ -101,415 +48,181 @@
         Log In
       </button>
 
-
     </form>
 
-
     <!-- FORGOT PASSWORD -->
+    <div style="text-align:center;margin-top:14px;">
 
-    <div
-      style="
-        text-align:center;
-        margin-top:16px;
-      "
-    >
-
-      <button
-        type="button"
-        id="forgotPasswordBtn"
-        style="
-          background:none;
-          border:none;
-          padding:0;
-          color:#2563eb;
-          text-decoration:underline;
-          cursor:pointer;
-          font-size:0.9rem;
-        "
+      <a
+        href="#"
+        id="forgotPassword"
+        style="font-size:0.85rem;"
       >
         Forgot Password?
-      </button>
+      </a>
 
     </div>
 
-
-    <!-- BACK TO WEBSITE -->
-
     <p
       class="muted"
-      style="
-        font-size:0.78rem;
-        text-align:center;
-        margin-top:18px;
-      "
+      style="font-size:0.78rem;text-align:center;margin-top:14px;"
     >
-
-      <a href="../index.html">
-        ← Back to site
-      </a>
-
+      <a href="../index.html">← Back to site</a>
     </p>
-
 
   </div>
 
 
-  <!-- SUPABASE -->
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 
-  <script
-    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"
-  ></script>
-
-
-  <!-- YOUR CONFIG -->
-
-  <script src="../src/js/config.js"></script>
-
-  <script src="../src/js/supabaseClient.js"></script>
-
-  <script src="../src/js/utils.js"></script>
+<script src="../src/js/config.js"></script>
+<script src="../src/js/supabaseClient.js"></script>
+<script src="../src/js/utils.js"></script>
 
 
-  <script>
+<script>
+
+const supabase = window.supabaseClient;
 
 
-    /* =========================================
-       CHECK SUPABASE
-    ========================================= */
+/* =========================
+   LOGIN
+========================= */
 
-    if (!window.supabaseClient) {
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
 
-      alert(
-        "Supabase connection পাওয়া যায়নি।\n\n" +
-        "Please check config.js and supabaseClient.js."
+  e.preventDefault();
+
+  const btn = document.getElementById("loginBtn");
+
+  setLoading(btn, true, "Logging in...");
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+
+  const { error } =
+    await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+
+
+  setLoading(btn, false);
+
+
+  if (error) {
+
+    toast(
+      "Invalid email or password.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  window.location.href = "dashboard.html";
+
+});
+
+
+/* =========================
+   FORGOT PASSWORD
+========================= */
+
+document
+  .getElementById("forgotPassword")
+  .addEventListener("click", async (e) => {
+
+    e.preventDefault();
+
+
+    const email =
+      document.getElementById("email").value.trim();
+
+
+    if (!email) {
+
+      toast(
+        "Please enter your email address first.",
+        "error"
       );
 
-      throw new Error(
-        "Supabase client not found."
+      document.getElementById("email").focus();
+
+      return;
+    }
+
+
+    try {
+
+      const { error } =
+        await supabase.auth.resetPasswordForEmail(
+          email,
+          {
+            redirectTo:
+              "https://hbbayezid312552.github.io/MPL/admin/update-password.html"
+          }
+        );
+
+
+      if (error) {
+
+        console.error(error);
+
+        toast(
+          error.message || "Could not send reset email.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      toast(
+        "Password reset email sent. Please check your email.",
+        "success"
+      );
+
+    } catch (err) {
+
+      console.error(err);
+
+      toast(
+        "Something went wrong. Please try again.",
+        "error"
       );
 
     }
 
+  });
 
-    const supabase =
-      window.supabaseClient;
 
+/* =========================
+   ALREADY LOGGED IN
+========================= */
 
+(async () => {
 
-    /* =========================================
-       LOGIN
-    ========================================= */
+  const {
+    data: { session }
+  } = await supabase.auth.getSession();
 
-    document
-      .getElementById("loginForm")
-      .addEventListener(
-        "submit",
-        async function (e) {
 
-          e.preventDefault();
+  if (session) {
 
+    window.location.href = "dashboard.html";
 
-          const loginBtn =
-            document.getElementById("loginBtn");
+  }
 
+})();
 
-          const email =
-            document
-              .getElementById("email")
-              .value
-              .trim();
-
-
-          const password =
-            document
-              .getElementById("password")
-              .value;
-
-
-          if (!email) {
-
-            alert(
-              "Please enter your email address."
-            );
-
-            return;
-          }
-
-
-          if (!password) {
-
-            alert(
-              "Please enter your password."
-            );
-
-            return;
-          }
-
-
-          loginBtn.disabled = true;
-
-          loginBtn.textContent =
-            "Logging in...";
-
-
-          try {
-
-
-            const { data, error } =
-              await supabase.auth.signInWithPassword({
-
-                email: email,
-
-                password: password
-
-              });
-
-
-            console.log(
-              "Login response:",
-              data,
-              error
-            );
-
-
-            if (error) {
-
-              console.error(
-                "Login error:",
-                error
-              );
-
-
-              alert(
-                "Login failed:\n\n" +
-                error.message
-              );
-
-
-              loginBtn.disabled = false;
-
-              loginBtn.textContent =
-                "Log In";
-
-              return;
-            }
-
-
-            /* LOGIN SUCCESS */
-
-            window.location.href =
-              "dashboard.html";
-
-
-          } catch (err) {
-
-
-            console.error(
-              "Unexpected login error:",
-              err
-            );
-
-
-            alert(
-              "Something went wrong:\n\n" +
-              err.message
-            );
-
-
-            loginBtn.disabled = false;
-
-            loginBtn.textContent =
-              "Log In";
-
-          }
-
-        }
-      );
-
-
-
-    /* =========================================
-       FORGOT PASSWORD
-    ========================================= */
-
-    document
-      .getElementById("forgotPasswordBtn")
-      .addEventListener(
-        "click",
-        async function () {
-
-
-          const emailInput =
-            document.getElementById("email");
-
-
-          const email =
-            emailInput
-              .value
-              .trim();
-
-
-          /* EMAIL CHECK */
-
-          if (!email) {
-
-            alert(
-              "প্রথমে Email ঘরে আপনার Email Address লিখুন।"
-            );
-
-            emailInput.focus();
-
-            return;
-          }
-
-
-          /* BUTTON */
-
-          const forgotBtn =
-            document.getElementById(
-              "forgotPasswordBtn"
-            );
-
-
-          forgotBtn.disabled = true;
-
-          forgotBtn.textContent =
-            "Sending...";
-
-
-          try {
-
-
-            console.log(
-              "Password reset request:",
-              email
-            );
-
-
-            /* SEND RESET EMAIL */
-
-            const { data, error } =
-              await supabase.auth
-                .resetPasswordForEmail(
-                  email,
-                  {
-
-                    redirectTo:
-                      "https://hbbayezid312552.github.io/MPL/admin/update-password.html"
-
-                  }
-                );
-
-
-            console.log(
-              "Reset response:",
-              data,
-              error
-            );
-
-
-            /* ERROR */
-
-            if (error) {
-
-
-              console.error(
-                "Password reset error:",
-                error
-              );
-
-
-              alert(
-                "Password reset email পাঠানো যায়নি:\n\n" +
-                error.message
-              );
-
-
-              return;
-            }
-
-
-            /* SUCCESS */
-
-            alert(
-              "Password reset email পাঠানো হয়েছে।\n\n" +
-              "আপনার Email Inbox এবং Spam/Junk folder চেক করুন।"
-            );
-
-
-          } catch (err) {
-
-
-            console.error(
-              "Forgot password error:",
-              err
-            );
-
-
-            alert(
-              "একটি সমস্যা হয়েছে:\n\n" +
-              err.message
-            );
-
-
-          } finally {
-
-
-            forgotBtn.disabled = false;
-
-            forgotBtn.textContent =
-              "Forgot Password?";
-
-
-          }
-
-        }
-      );
-
-
-
-    /* =========================================
-       IF ALREADY LOGGED IN
-    ========================================= */
-
-    (async function () {
-
-
-      try {
-
-
-        const {
-          data: {
-            session
-          }
-        } =
-          await supabase.auth.getSession();
-
-
-        if (session) {
-
-          window.location.href =
-            "dashboard.html";
-
-        }
-
-
-      } catch (err) {
-
-        console.error(
-          "Session check error:",
-          err
-        );
-
-      }
-
-
-    })();
-
-
-  </script>
-
+</script>
 
 </body>
-
 </html>
