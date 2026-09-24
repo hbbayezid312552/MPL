@@ -6,48 +6,223 @@
 <title>Admin Login — City Premier League</title>
 <link rel="stylesheet" href="../src/css/style.css">
 </head>
+
 <body style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--pitch);">
+
   <div class="card" style="max-width:380px;width:100%;margin:16px;">
+
     <h2 style="margin-top:0;text-align:center;">🏏 Admin Login</h2>
-    <p class="muted" style="text-align:center;font-size:0.85rem;">Super Admin & Match Operator access</p>
+
+    <p class="muted" style="text-align:center;font-size:0.85rem;">
+      Super Admin & Match Operator access
+    </p>
+
+    <!-- LOGIN FORM -->
     <form id="loginForm">
+
       <div class="form-group">
         <label>Email</label>
-        <input type="email" id="email" required autocomplete="username">
+        <input
+          type="email"
+          id="email"
+          required
+          autocomplete="username"
+        >
       </div>
+
       <div class="form-group">
         <label>Password</label>
-        <input type="password" id="password" required autocomplete="current-password">
+        <input
+          type="password"
+          id="password"
+          required
+          autocomplete="current-password"
+        >
       </div>
-      <button type="submit" class="btn btn-primary btn-block" id="loginBtn">Log In</button>
+
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+        id="loginBtn"
+      >
+        Log In
+      </button>
+
     </form>
-    <p class="muted" style="font-size:0.78rem;text-align:center;margin-top:14px;">
+
+    <!-- FORGOT PASSWORD -->
+    <div style="text-align:center;margin-top:14px;">
+
+      <a
+        href="#"
+        id="forgotPassword"
+        style="font-size:0.85rem;"
+      >
+        Forgot Password?
+      </a>
+
+    </div>
+
+    <p
+      class="muted"
+      style="font-size:0.78rem;text-align:center;margin-top:14px;"
+    >
       <a href="../index.html">← Back to site</a>
     </p>
+
   </div>
 
+
+<!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
 <script src="../src/js/config.js"></script>
 <script src="../src/js/supabaseClient.js"></script>
 <script src="../src/js/utils.js"></script>
+
+
 <script>
+
+const supabase = window.supabaseClient;
+
+
+/* =========================
+   LOGIN
+========================= */
+
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
+
   e.preventDefault();
+
   const btn = document.getElementById("loginBtn");
+
   setLoading(btn, true, "Logging in...");
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  const { error } = await window.supabaseClient.auth.signInWithPassword({ email, password });
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+
+  const { error } =
+    await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+
+
   setLoading(btn, false);
-  if (error) { toast("Invalid email or password.", "error"); return; }
+
+
+  if (error) {
+
+    toast(
+      "Invalid email or password.",
+      "error"
+    );
+
+    return;
+  }
+
+
   window.location.href = "dashboard.html";
+
 });
 
-// If already logged in, skip straight to dashboard
+
+/* =========================
+   FORGOT PASSWORD
+========================= */
+
+document
+  .getElementById("forgotPassword")
+  .addEventListener("click", async (e) => {
+
+    e.preventDefault();
+
+
+    const email =
+      document.getElementById("email").value.trim();
+
+
+    if (!email) {
+
+      toast(
+        "Please enter your email address first.",
+        "error"
+      );
+
+      document.getElementById("email").focus();
+
+      return;
+    }
+
+
+    try {
+
+      const { error } =
+        await supabase.auth.resetPasswordForEmail(
+          email,
+          {
+            redirectTo:
+              "https://hbbayezid312552.github.io/MPL/admin/update-password.html"
+          }
+        );
+
+
+      if (error) {
+
+        console.error(error);
+
+        toast(
+          error.message || "Could not send reset email.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      toast(
+        "Password reset email sent. Please check your email.",
+        "success"
+      );
+
+    } catch (err) {
+
+      console.error(err);
+
+      toast(
+        "Something went wrong. Please try again.",
+        "error"
+      );
+
+    }
+
+  });
+
+
+/* =========================
+   ALREADY LOGGED IN
+========================= */
+
 (async () => {
-  const { data: { session } } = await window.supabaseClient.auth.getSession();
-  if (session) window.location.href = "dashboard.html";
+
+  const {
+    data: { session }
+  } = await supabase.auth.getSession();
+
+
+  if (session) {
+
+    window.location.href = "dashboard.html";
+
+  }
+
 })();
+
 </script>
+
 </body>
 </html>
