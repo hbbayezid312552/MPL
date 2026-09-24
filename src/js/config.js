@@ -8,7 +8,7 @@
 // "service_role" key here or anywhere in frontend code.
 // ============================================================
 window.SITE_CONFIG = {
-  SUPABASE_URL: "https://fdsncfqvftlgjslyotpa.supabase.co/rest/v1/",
+  SUPABASE_URL: "https://fdsncfqvftlgjslyotpa.supabase.co",
   SUPABASE_ANON_KEY: "sb_publishable_m_Z4U8BSstwBvNOqS7nfIA_0AwJZ-up",
   SITE_NAME: "Moslemgonj high school Premier League",
   SITE_URL: "https://YOUR-GITHUB-USERNAME.github.io/cricket-tournament/"
