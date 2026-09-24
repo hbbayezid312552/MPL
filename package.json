@@ -1,0 +1,9 @@
+{
+  "name": "cricket-tournament",
+  "version": "1.0.0",
+  "description": "Cricket Tournament Management Website — static HTML/CSS/JS with Supabase backend",
+  "private": true,
+  "scripts": {
+    "start": "npx serve . -l 5500"
+  }
+}

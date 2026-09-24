@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Points Table — City Premier League</title>
+<link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="nav-bar">
+    <a href="index.html" class="brand">🏏 <span id="site-name">City Premier League</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" data-nav-link>Home</a></li>
+      <li><a href="teams.html" data-nav-link>Teams</a></li>
+      <li><a href="players.html" data-nav-link>Players</a></li>
+      <li><a href="points-table.html" data-nav-link class="active">Points Table</a></li>
+      <li><a href="admin/login.html" class="admin-link-btn">Admin</a></li>
+    </ul>
+  </div>
+</header>
+
+<main class="container section">
+  <div class="section-head"><h2>Points Table</h2></div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Team</th><th>Played</th><th>Won</th><th>Lost</th><th>No Result</th><th>Points</th><th>NRR</th></tr></thead>
+      <tbody id="pointsBody"><tr><td colspan="8" class="muted">Loading...</td></tr></tbody>
+    </table>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="container"><span>© 2026 City Premier League.</span></div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="src/js/config.js"></script>
+<script src="src/js/supabaseClient.js"></script>
+<script src="src/js/utils.js"></script>
+<script src="src/js/points-table.js"></script>
+<script>document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));</script>
+</body>
+</html>

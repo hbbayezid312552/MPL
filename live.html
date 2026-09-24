@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Live Match — City Premier League</title>
+<meta id="ogTitle" property="og:title" content="Live Cricket Score">
+<meta id="ogDesc" property="og:description" content="Follow the live score, ball-by-ball.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="nav-bar">
+    <a href="index.html" class="brand">🏏 <span id="site-name">City Premier League</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" data-nav-link>Home</a></li>
+      <li><a href="teams.html" data-nav-link>Teams</a></li>
+      <li><a href="players.html" data-nav-link>Players</a></li>
+      <li><a href="points-table.html" data-nav-link>Points Table</a></li>
+      <li><a href="admin/login.html" class="admin-link-btn">Admin</a></li>
+    </ul>
+  </div>
+</header>
+
+<main class="container section">
+
+  <div class="score-strip" id="scoreStrip">
+    <div class="teams-line">
+      <div>
+        <span id="statusBadge" class="status-badge">LOADING</span>
+        <div class="big-score" id="mainScore">-- / --</div>
+        <div class="sub" id="oversLine"></div>
+      </div>
+      <div style="text-align:right;">
+        <div id="matchTitle" style="font-weight:600;"></div>
+        <div class="sub" id="matchVenue"></div>
+      </div>
+    </div>
+    <div class="target-line" id="targetLine" style="display:none;"></div>
+  </div>
+
+  <div class="grid" style="grid-template-columns: 2fr 1fr; align-items:start;">
+    <div>
+      <div class="card" style="margin-bottom:16px;">
+        <h3 style="margin-top:0;">On the Field</h3>
+        <div class="grid" style="grid-template-columns:1fr 1fr;gap:10px;">
+          <div>
+            <div class="muted" style="font-size:0.78rem;">Striker</div>
+            <div id="strikerLine" style="font-weight:700;">-</div>
+          </div>
+          <div>
+            <div class="muted" style="font-size:0.78rem;">Non-Striker</div>
+            <div id="nonStrikerLine" style="font-weight:700;">-</div>
+          </div>
+          <div>
+            <div class="muted" style="font-size:0.78rem;">Bowler</div>
+            <div id="bowlerLine" style="font-weight:700;">-</div>
+          </div>
+          <div>
+            <div class="muted" style="font-size:0.78rem;">Partnership / Extras</div>
+            <div id="partnershipLine" style="font-weight:700;">-</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0;">Ball-by-Ball Commentary</h3>
+        <div class="commentary-feed" id="commentaryFeed"><p class="muted">Commentary will appear here once the match starts.</p></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom:16px;">
+        <h3 style="margin-top:0;">Share This Match</h3>
+        <div class="fb-share-box">
+          <a class="btn btn-fb btn-block" target="_blank" id="fbShareBtn" href="#">📘 Share Live Score on Facebook</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0;">Fall of Wickets</h3>
+        <div id="fowList"><p class="muted">No wickets yet.</p></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer"><div class="container"><span>© 2026 City Premier League.</span></div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="src/js/config.js"></script>
+<script src="src/js/supabaseClient.js"></script>
+<script src="src/js/utils.js"></script>
+<script src="src/js/live.js"></script>
+<script>document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));</script>
+</body>
+</html>

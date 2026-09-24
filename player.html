@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Player Profile — City Premier League</title>
+<link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="nav-bar">
+    <a href="index.html" class="brand">🏏 <span id="site-name">City Premier League</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" data-nav-link>Home</a></li>
+      <li><a href="teams.html" data-nav-link>Teams</a></li>
+      <li><a href="players.html" data-nav-link class="active">Players</a></li>
+      <li><a href="points-table.html" data-nav-link>Points Table</a></li>
+      <li><a href="admin/login.html" class="admin-link-btn">Admin</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+    <div class="avatar-circle" id="playerPhoto" style="width:84px;height:84px;font-size:1.6rem;"></div>
+    <div>
+      <h1 id="playerName">Loading...</h1>
+      <p id="playerMeta" class="muted" style="color:rgba(255,255,255,0.8);"></p>
+    </div>
+  </div>
+</section>
+
+<main class="container section">
+  <div class="stat-cards" id="playerStats"></div>
+
+  <div class="grid" style="grid-template-columns:1fr 1fr;">
+    <div class="card">
+      <h3>Batting Style</h3>
+      <p id="battingStyle" class="muted">-</p>
+    </div>
+    <div class="card">
+      <h3>Bowling Style</h3>
+      <p id="bowlingStyle" class="muted">-</p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer"><div class="container"><span>© 2026 City Premier League.</span></div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="src/js/config.js"></script>
+<script src="src/js/supabaseClient.js"></script>
+<script src="src/js/utils.js"></script>
+<script src="src/js/player-profile.js"></script>
+<script>document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));</script>
+</body>
+</html>

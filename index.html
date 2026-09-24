@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>City Premier League — Cricket Tournament</title>
+<meta name="description" content="Follow live scores, teams, players and the points table for the City Premier League cricket tournament.">
+<meta property="og:title" content="City Premier League — Cricket Tournament">
+<meta property="og:description" content="Live scores, fixtures, teams and points table.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏏</text></svg>">
+<link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-bar">
+    <a href="index.html" class="brand">🏏 <span id="site-name">City Premier League</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" data-nav-link class="active">Home</a></li>
+      <li><a href="teams.html" data-nav-link>Teams</a></li>
+      <li><a href="players.html" data-nav-link>Players</a></li>
+      <li><a href="points-table.html" data-nav-link>Points Table</a></li>
+      <li><a href="admin/login.html" class="admin-link-btn">Admin</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1 id="tournamentName">Loading tournament...</h1>
+    <p id="tournamentVenue">Follow every match, every run, every wicket — live.</p>
+    <div class="hero-meta">
+      <span id="tournamentDates"></span>
+      <span id="tournamentTeamCount"></span>
+    </div>
+  </div>
+</section>
+
+<main class="container">
+
+  <section class="section" id="liveSection" style="display:none;">
+    <div class="section-head">
+      <h2><span class="live-dot">LIVE NOW</span></h2>
+    </div>
+    <div class="grid grid-3" id="liveMatches"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Upcoming Matches</h2>
+    </div>
+    <div class="grid grid-3" id="upcomingMatches"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Recent Results</h2>
+    </div>
+    <div class="grid grid-3" id="recentResults"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Points Table</h2>
+      <a href="points-table.html">Full table →</a>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table" id="pointsPreview">
+        <thead><tr><th>#</th><th>Team</th><th>P</th><th>W</th><th>L</th><th>Pts</th><th>NRR</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Teams</h2><a href="teams.html">View all →</a></div>
+    <div class="grid grid-4" id="teamsPreview"></div>
+  </section>
+
+  <section class="section">
+    <div class="grid" style="grid-template-columns: 1fr 1fr;">
+      <div>
+        <div class="section-head"><h2>Top Run Scorers</h2></div>
+        <div class="table-wrap"><table class="data-table" id="topRuns"><thead><tr><th>Player</th><th>Team</th><th>Runs</th></tr></thead><tbody></tbody></table></div>
+      </div>
+      <div>
+        <div class="section-head"><h2>Top Wicket Takers</h2></div>
+        <div class="table-wrap"><table class="data-table" id="topWickets"><thead><tr><th>Player</th><th>Team</th><th>Wkts</th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>© 2026 City Premier League. Built with Supabase + GitHub Pages.</span>
+    <div class="fb-share-box">
+      <a class="btn btn-fb btn-sm" target="_blank" id="fbShareHome" href="#">Share on Facebook</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="src/js/config.js"></script>
+<script src="src/js/supabaseClient.js"></script>
+<script src="src/js/utils.js"></script>
+<script src="src/js/home.js"></script>
+<script>
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+</script>
+</body>
+</html>
